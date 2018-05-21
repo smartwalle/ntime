@@ -1,14 +1,14 @@
 package time4go
 
 import (
-	"time"
 	"errors"
+	"time"
 )
 
 // --------------------------------------------------------------------------------
 type TimeFormatter interface {
 	Format(t time.Time) ([]byte, error)
-	Parse(data [] byte) (time.Time, error)
+	Parse(data []byte) (time.Time, error)
 }
 
 // --------------------------------------------------------------------------------
@@ -35,4 +35,3 @@ func (this DefaultFormatter) Parse(data []byte) (result time.Time, err error) {
 	result, err = time.Parse(`"`+this.Layout+`"`, string(data))
 	return result, err
 }
-

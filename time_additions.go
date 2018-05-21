@@ -15,7 +15,7 @@ func NumberOfDaysInMonth(year int, month time.Month) (number int) {
 	case time.January:
 		number = 31
 	case time.February:
-		if (year % 4 == 0 && year % 100 != 0) || year % 400 == 0 {
+		if (year%4 == 0 && year%100 != 0) || year%400 == 0 {
 			number = 29
 		} else {
 			number = 28
@@ -73,14 +73,14 @@ func BeginningDateOfWeek(year int, month time.Month, day int) *Time {
 	var t = Date(year, month, day, 0, 0, 0, 0, time.Local)
 	var w = t.Weekday()
 	var d = int(w - time.Sunday)
-	return Date(year, month, day - d, 0, 0, 0, 0, time.Local)
+	return Date(year, month, day-d, 0, 0, 0, 0, time.Local)
 }
 
 func beginningDateOfWeek(t *Time) *Time {
 	var nt = Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.Local)
 	var w = nt.Weekday()
 	var d = int(w - time.Sunday)
-	return Date(t.Year(), t.Month(), t.Day() - d, t.Hour(), t.Minute(), t.Second(), 0, time.Local)
+	return Date(t.Year(), t.Month(), t.Day()-d, t.Hour(), t.Minute(), t.Second(), 0, time.Local)
 }
 
 // EndDateOfWeek 获取指定日期所有周的最后一天
@@ -88,14 +88,14 @@ func EndDateOfWeek(year int, month time.Month, day int) *Time {
 	var t = Date(year, month, day, 0, 0, 0, 0, time.Local)
 	var w = t.Weekday()
 	var d = int(time.Saturday - w)
-	return Date(year, month, day + d, 0, 0, 0, 0, time.Local)
+	return Date(year, month, day+d, 0, 0, 0, 0, time.Local)
 }
 
 func endDateOfWeek(t *Time) *Time {
 	var nt = Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.Local)
 	var w = nt.Weekday()
 	var d = int(time.Saturday - w)
-	return Date(t.Year(), t.Month(), t.Day() + d, t.Hour(), t.Minute(), t.Second(), 0, time.Local)
+	return Date(t.Year(), t.Month(), t.Day()+d, t.Hour(), t.Minute(), t.Second(), 0, time.Local)
 }
 
 // BeginningTimeOfDay 获取指定日期的开始时间

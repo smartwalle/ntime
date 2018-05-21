@@ -1,9 +1,9 @@
 package time4go
 
 import (
+	"fmt"
 	"testing"
 	"time"
-	"fmt"
 )
 
 func TestBeginningTimeOfWeek(t *testing.T) {
