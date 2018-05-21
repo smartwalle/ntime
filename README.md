@@ -80,6 +80,17 @@ func (this MyFormatter) Parse(data []byte) (time.Time, error) {
 time4go.JSONFormatter = MyFormatter{}
 ```
 
+#### 支持 SQL 类数据库
+
+```go
+db, err := sql.Open("mysql", "xxx")
+if err != nil {
+	fmt.Println("连接数据库出错：", err)
+	return
+}
+defer db.Close()
+db.Exec("INSERT INTO `user` (`name`, `age`, `created_on`) VALUES (?, ?, ?)", "test", 18, time4go.Now())
+```
 
 ## License
 This project is licensed under the MIT License.
