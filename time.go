@@ -128,6 +128,18 @@ func (this *Time) Local() *Time {
 	return t
 }
 
+func (this *Time) AddDate(years int, months int, days int) *Time {
+	var t = &Time{}
+	t.Time = this.Time.AddDate(years, months, days)
+	return t
+}
+
+func (this *Time) Add(d time.Duration) *Time {
+	var t = &Time{}
+	t.Time = this.Time.Add(d)
+	return t
+}
+
 // --------------------------------------------------------------------------------
 // PreviousDate 获取当前日期的前一天（昨天）
 func (this *Time) PreviousDate() *Time {
