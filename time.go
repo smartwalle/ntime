@@ -122,6 +122,12 @@ func (this *Time) Before(t *Time) bool {
 	return this.Time.Before(t.Time)
 }
 
+func (this *Time) Local() *Time {
+	var t = &Time{}
+	t.Time = this.Time.Local()
+	return t
+}
+
 // --------------------------------------------------------------------------------
 // PreviousDate 获取当前日期的前一天（昨天）
 func (this *Time) PreviousDate() *Time {
