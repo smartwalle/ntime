@@ -128,6 +128,12 @@ func (this *Time) Local() *Time {
 	return t
 }
 
+func (this *Time) UTC() *Time {
+	var t = &Time{}
+	t.Time = this.Time.UTC()
+	return t
+}
+
 func (this *Time) AddDate(years int, months int, days int) *Time {
 	var t = &Time{}
 	t.Time = this.Time.AddDate(years, months, days)
