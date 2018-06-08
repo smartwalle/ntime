@@ -146,6 +146,14 @@ func (this *Time) Add(d time.Duration) *Time {
 	return t
 }
 
+func (this *Time) Sub(t *Time) int {
+	var t1 = this.Time
+	var t2 = t.Time
+	t1 = time.Date(t1.Year(), t1.Month(), t1.Day(), 0, 0, 0, 0, time.Local)
+	t2 = time.Date(t2.Year(), t2.Month(), t2.Day(), 0, 0, 0, 0, time.Local)
+	return int(t1.Sub(t2).Hours() / 24)
+}
+
 // --------------------------------------------------------------------------------
 // PreviousDate 获取当前日期的前一天（昨天）
 func (this *Time) PreviousDate() *Time {
