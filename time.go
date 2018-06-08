@@ -90,7 +90,7 @@ func (this *Time) Scan(value interface{}) (err error) {
 }
 
 func (this Time) Format(layout string) string {
-	return this.Format(layout)
+	return this.Time.Format(layout)
 }
 
 // --------------------------------------------------------------------------------
