@@ -122,15 +122,21 @@ func (this *Time) Before(t *Time) bool {
 	return this.Time.Before(t.Time)
 }
 
+func (this *Time) UTC() *Time {
+	var t = &Time{}
+	t.Time = this.Time.UTC()
+	return t
+}
+
 func (this *Time) Local() *Time {
 	var t = &Time{}
 	t.Time = this.Time.Local()
 	return t
 }
 
-func (this *Time) UTC() *Time {
+func (this *Time) In(loc *time.Location) *Time {
 	var t = &Time{}
-	t.Time = this.Time.UTC()
+	t.Time = this.Time.In(loc)
 	return t
 }
 
