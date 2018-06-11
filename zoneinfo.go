@@ -23,6 +23,14 @@ func LoadLocation(name string) (*time.Location, error) {
 	return loc, err
 }
 
+func MustLocation(name string) (*time.Location) {
+	var l, err = LoadLocation(name)
+	if err != nil {
+		panic(err)
+	}
+	return l
+}
+
 func ZoneInfoList() []string {
 	return zoneInfo
 }
