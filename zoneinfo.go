@@ -31,7 +31,7 @@ func MustLocation(name string) (*time.Location) {
 	return l
 }
 
-func ZoneInfoList() []string {
+func TimeZones() []string {
 	return zoneInfo
 }
 
