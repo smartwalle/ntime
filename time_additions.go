@@ -7,6 +7,10 @@ func Now() *Time {
 	return &Time{time.Now()}
 }
 
+func WithTime(t time.Time) *Time {
+	return &Time{t}
+}
+
 // NumberOfDaysInMonth 获取指定月份有多少天
 func NumberOfDaysInMonth(year int, month time.Month) (number int) {
 	number = 30
