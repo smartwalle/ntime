@@ -135,3 +135,11 @@ func Parse(layout, value string) (*Time, error) {
 	}
 	return &Time{t}, nil
 }
+
+func ParseInLocation(layout, value string, loc *time.Location) (*Time, error) {
+	t, err := time.ParseInLocation(layout, value, loc)
+	if err != nil {
+		return nil, err
+	}
+	return &Time{t}, nil
+}
