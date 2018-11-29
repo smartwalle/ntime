@@ -161,6 +161,27 @@ func (this *Time) Sub(t *Time) int {
 }
 
 // --------------------------------------------------------------------------------
+// Nanoseconds 纳秒（ns）
+func (this *Time) UnixNanoseconds() int64 {
+	return this.UnixNano()
+}
+
+// Microsecond 微秒（µs）
+func (this *Time) UnixMicroseconds() int64 {
+	return this.UnixNano() / 1e3
+}
+
+// Millisecond 毫秒（ms）
+func (this *Time) UnixMilliseconds() int64 {
+	return this.UnixNano() / 1e6
+}
+
+// UnixSecond 秒（s）
+func (this *Time) UnixSeconds() int64 {
+	return this.Unix()
+}
+
+// --------------------------------------------------------------------------------
 // PreviousDate 获取当前日期的前一天（昨天）
 func (this *Time) PreviousDate() *Time {
 	var t = this.Time.Add(time.Hour * -24)
