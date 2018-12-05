@@ -161,23 +161,23 @@ func (this *Time) Sub(t *Time) int {
 }
 
 // --------------------------------------------------------------------------------
-// Nanoseconds 纳秒（ns）
-func (this *Time) UnixNanoseconds() int64 {
+// Nanosecond 纳秒（ns）
+func (this *Time) UnixNanosecond() int64 {
 	return this.UnixNano()
 }
 
 // Microsecond 微秒（µs）
-func (this *Time) UnixMicroseconds() int64 {
+func (this *Time) UnixMicrosecond() int64 {
 	return this.UnixNano() / 1e3
 }
 
 // Millisecond 毫秒（ms）
-func (this *Time) UnixMilliseconds() int64 {
+func (this *Time) UnixMillisecond() int64 {
 	return this.UnixNano() / 1e6
 }
 
 // UnixSecond 秒（s）
-func (this *Time) UnixSeconds() int64 {
+func (this *Time) UnixSecond() int64 {
 	return this.Unix()
 }
 
