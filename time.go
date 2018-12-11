@@ -155,8 +155,8 @@ func (this *Time) Add(d time.Duration) *Time {
 func (this *Time) Sub(t *Time) time.Duration {
 	var t1 = this.Time
 	var t2 = t.Time
-	t1 = time.Date(t1.Year(), t1.Month(), t1.Day(), 0, 0, 0, 0, time.Local)
-	t2 = time.Date(t2.Year(), t2.Month(), t2.Day(), 0, 0, 0, 0, time.Local)
+	t1 = t1.In(time.UTC)
+	t2 = t2.In(time.UTC)
 	return t1.Sub(t2)
 }
 
