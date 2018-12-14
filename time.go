@@ -28,7 +28,7 @@ func (this Time) GobEncode() ([]byte, error) {
 }
 
 func (this *Time) GobDecode(data []byte) error {
-	return this.GobDecode(data)
+	return this.Time.GobDecode(data)
 }
 
 func (this Time) MarshalJSON() ([]byte, error) {
