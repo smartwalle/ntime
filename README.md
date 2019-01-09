@@ -54,7 +54,7 @@ time4go.JSONFormatter = time4go.DefaultFormatter{Layout: "2006-01-02 15:04:05"}
 
 例子:
 
-```
+```go
 package main
 
 import (
