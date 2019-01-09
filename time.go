@@ -64,7 +64,10 @@ func (this *Time) UnmarshalText(data []byte) error {
 	return this.Time.UnmarshalText(data)
 }
 
-func (this Time) Value() (driver.Value, error) {
+func (this *Time) Value() (driver.Value, error) {
+	if this == nil {
+		return nil, nil
+	}
 	return this.Time, nil
 }
 
