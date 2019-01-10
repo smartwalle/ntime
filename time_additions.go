@@ -52,6 +52,14 @@ func Date(year int, month time.Month, day, hour, min, sec, nsec int, loc *time.L
 	return &Time{time.Date(year, month, day, hour, min, sec, nsec, loc)}
 }
 
+func Unix(sec int64, nsec int64) *Time {
+	return &Time{time.Unix(sec, nsec)}
+}
+
+func UnixIn(sec int64, nsec int64, loc *time.Location) *Time {
+	return &Time{time.Unix(sec, nsec).In(loc)}
+}
+
 // BeginningDateOfYear 获取指定年份的第一天
 func BeginningDateOfYear(year int) *Time {
 	return Date(year, 1, 1, 0, 0, 0, 0, time.Local)
