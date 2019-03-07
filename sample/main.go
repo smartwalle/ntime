@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/smartwalle/time4go"
+	"time"
 )
 
 func main() {
@@ -24,6 +25,10 @@ func main() {
 	//var now = time4go.Now()
 	//fmt.Println(now.BeginningDateOfMonth())
 	//fmt.Println(now.EndDateOfMonth())
+
+	var t = time4go.Date(2019, time.January, 1, 0, 0, 0, 0, time4go.UTC)
+
+	fmt.Println(t.Format("2006-01-02 15:04:05"))
 }
 
 type Schedule struct {
