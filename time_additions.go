@@ -11,6 +11,22 @@ func WithTime(t time.Time) *Time {
 	return &Time{t}
 }
 
+func WithNanosecond(ns int64) *Time {
+	return Unix(0, ns)
+}
+
+func WithMicrosecond(ms int64) *Time {
+	return Unix(0, ms*int64(time.Microsecond))
+}
+
+func WithMillisecond(ms int64) *Time {
+	return Unix(0, ms*int64(time.Millisecond))
+}
+
+func WithSecond(s int64) *Time {
+	return Unix(s, 0)
+}
+
 // NumberOfDaysInMonth 获取指定月份有多少天
 func NumberOfDaysInMonth(year int, month time.Month) (number int) {
 	number = 30
