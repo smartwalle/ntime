@@ -10,6 +10,10 @@ var (
 	JSONFormatter TimeFormatter = DefaultFormatter{time.RFC3339}
 )
 
+const (
+	kDefaultLayout = "2006-01-02 15:04:05.999999999 -0700 MST"
+)
+
 // --------------------------------------------------------------------------------
 type Time struct {
 	time.Time
@@ -93,6 +97,9 @@ func (this *Time) Scan(value interface{}) (err error) {
 }
 
 func (this Time) Format(layout string) string {
+	if layout == "" {
+		layout = kDefaultLayout
+	}
 	return this.Time.Format(layout)
 }
 

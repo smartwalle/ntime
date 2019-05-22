@@ -153,6 +153,10 @@ func EndTime(t *Time) *Time {
 }
 
 func Parse(layout, value string) (*Time, error) {
+	if layout == "" {
+		layout = kDefaultLayout
+	}
+
 	t, err := time.Parse(layout, value)
 	if err != nil {
 		return nil, err
@@ -161,15 +165,19 @@ func Parse(layout, value string) (*Time, error) {
 }
 
 func MustParse(layout, value string) *Time {
-	t, err := time.Parse(layout, value)
+	t, err := Parse(layout, value)
 	if err != nil {
 		panic(err)
 		return nil
 	}
-	return &Time{t}
+	return t
 }
 
 func ParseInLocation(layout, value string, loc *time.Location) (*Time, error) {
+	if layout == "" {
+		layout = kDefaultLayout
+	}
+
 	t, err := time.ParseInLocation(layout, value, loc)
 	if err != nil {
 		return nil, err
@@ -178,10 +186,10 @@ func ParseInLocation(layout, value string, loc *time.Location) (*Time, error) {
 }
 
 func MustParseInLocation(layout, value string, loc *time.Location) *Time {
-	t, err := time.ParseInLocation(layout, value, loc)
+	t, err := ParseInLocation(layout, value, loc)
 	if err != nil {
 		panic(err)
 		return nil
 	}
-	return &Time{t}
+	return t
 }
