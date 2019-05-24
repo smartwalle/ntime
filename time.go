@@ -105,10 +105,7 @@ func (this Time) Format(layout string) string {
 
 // --------------------------------------------------------------------------------
 func (this *Time) GreaterThan(t *Time) bool {
-	if t == nil {
-		return true
-	}
-	return this.Time.After(t.Time)
+	return this.After(t)
 }
 
 func (this *Time) After(t *Time) bool {
@@ -119,10 +116,7 @@ func (this *Time) After(t *Time) bool {
 }
 
 func (this *Time) LessThan(t *Time) bool {
-	if t == nil {
-		return false
-	}
-	return this.Time.Before(t.Time)
+	return this.Before(t)
 }
 
 func (this *Time) Before(t *Time) bool {
