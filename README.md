@@ -126,5 +126,7 @@ defer db.Close()
 db.Exec("INSERT INTO `user` (`name`, `age`, `created_on`) VALUES (?, ?, ?)", "test", 18, time4go.Now())
 ```
 
+写入 SQL 类数据的时候，会将时间转换为 UTC 时区的时间，从 SQL 类数据库读取的时候，会将时间转换为 UTC 时区的时间。从而避免了在使用 github.com/lib/pq 库的时候，当数据库服务器和业务服务器时区不同引发的操作 timestamp 类型字段数据会不一致的问题。
+
 ## License
 This project is licensed under the MIT License.
