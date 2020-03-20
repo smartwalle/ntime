@@ -72,22 +72,22 @@ func (this *Time) Value() (driver.Value, error) {
 	if this == nil {
 		return nil, nil
 	}
-	return this.Time, nil
+	return this.Time.UTC(), nil
 }
 
 func (this *Time) Scan(value interface{}) (err error) {
 	switch val := value.(type) {
 	case time.Time:
-		this.Time = val
+		this.Time = val.UTC()
 		return nil
 	case *time.Time:
-		this.Time = *val
+		this.Time = (*val).UTC()
 		return nil
 	case Time:
-		this.Time = val.Time
+		this.Time = val.Time.UTC()
 		return nil
 	case *Time:
-		this.Time = val.Time
+		this.Time = val.Time.UTC()
 		return nil
 	case nil:
 		return nil
