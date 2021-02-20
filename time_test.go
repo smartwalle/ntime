@@ -1,25 +1,27 @@
-package time4go
+package time4go_test
 
 import (
-	"fmt"
+	"github.com/smartwalle/time4go"
 	"testing"
 	"time"
 )
 
-func TestBeginningTimeOfWeek(t *testing.T) {
-	fmt.Println(BeginningDateOfWeek(2018, time.May, 2), EndDateOfWeek(2018, time.May, 2))
-	fmt.Println(BeginningDateOfWeek(2018, time.May, 15), EndDateOfWeek(2018, time.May, 17))
-	fmt.Println(BeginningDateOfWeek(2018, time.May, 29), EndDateOfWeek(2018, time.May, 30))
-
-	fmt.Println(Now().BeginningDateOfWeek(), Now().EndDateOfWeek())
-}
-
 func TestTime_Greater(t *testing.T) {
-	var t1 = Now()
-	var t2 = Date(2018, time.May, 20, 0, 0, 0, 0, time.Local)
-	var t3 = Date(3018, time.May, 20, 0, 0, 0, 0, time.Local)
+	var testTbl = []struct {
+		now    *time4go.Time
+		dst    *time4go.Time
+		expect bool
+	}{
+		{time4go.Now(), time4go.Now(), false},
+		{time4go.Now(), time4go.Date(2018, time.May, 20, 0, 0, 0, 0, time.Local), true},
+		{time4go.Now(), time4go.Now().Add(time.Second * 10), false},
+		{time4go.Now(), nil, true},
+	}
 
-	fmt.Println(t1.GreaterThan(t2))
-	fmt.Println(t1.GreaterThan(t3))
-	fmt.Println(t1.GreaterThan(nil))
+	for _, test := range testTbl {
+		var actual = test.now.GreaterThan(test.dst)
+		if actual != test.expect {
+			t.Fatal(test.now, "比", test.dst, "大,", "期望:", test.expect, "实际:", actual)
+		}
+	}
 }
