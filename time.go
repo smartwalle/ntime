@@ -14,7 +14,6 @@ const (
 	kDefaultLayout = "2006-01-02 15:04:05.999999999 -0700 MST"
 )
 
-// --------------------------------------------------------------------------------
 type Time struct {
 	time.Time
 }
@@ -103,7 +102,6 @@ func (this Time) Format(layout string) string {
 	return this.Time.Format(layout)
 }
 
-// --------------------------------------------------------------------------------
 func (this *Time) GreaterThan(t *Time) bool {
 	return this.After(t)
 }
@@ -164,23 +162,21 @@ func (this *Time) Sub(t *Time) time.Duration {
 	return t1.Sub(t2)
 }
 
-// --------------------------------------------------------------------------------
 func (this *Time) DiffDays(t *Time) int {
 	return int(this.Sub(t).Hours() / 24)
 }
 
-// --------------------------------------------------------------------------------
-// Nanosecond 纳秒（ns）
+// UnixNanosecond 纳秒（ns）
 func (this *Time) UnixNanosecond() int64 {
 	return this.UnixNano()
 }
 
-// Microsecond 微秒（µs）
+// UnixMicrosecond 微秒（µs）
 func (this *Time) UnixMicrosecond() int64 {
 	return this.UnixNano() / 1e3
 }
 
-// Millisecond 毫秒（ms）
+// UnixMillisecond 毫秒（ms）
 func (this *Time) UnixMillisecond() int64 {
 	return this.UnixNano() / 1e6
 }
@@ -190,7 +186,6 @@ func (this *Time) UnixSecond() int64 {
 	return this.Unix()
 }
 
-// --------------------------------------------------------------------------------
 // PreviousDate 获取当前日期的前一天（昨天）
 func (this *Time) PreviousDate() *Time {
 	var t = this.Time.Add(time.Hour * -24)

@@ -5,13 +5,11 @@ import (
 	"time"
 )
 
-// --------------------------------------------------------------------------------
 type TimeFormatter interface {
 	Format(t time.Time) ([]byte, error)
 	Parse(data []byte) (time.Time, error)
 }
 
-// --------------------------------------------------------------------------------
 type DefaultFormatter struct {
 	Layout string
 }
