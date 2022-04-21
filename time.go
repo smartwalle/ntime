@@ -162,10 +162,6 @@ func (this *Time) Sub(t *Time) time.Duration {
 	return t1.Sub(t2)
 }
 
-func (this *Time) DiffDays(t *Time) int {
-	return int(this.Sub(t).Hours() / 24)
-}
-
 // UnixNanosecond 纳秒（ns）
 func (this *Time) UnixNanosecond() int64 {
 	return this.UnixNano()
@@ -186,14 +182,14 @@ func (this *Time) UnixSecond() int64 {
 	return this.Unix()
 }
 
-// PreviousDate 获取当前日期的前一天（昨天）
-func (this *Time) PreviousDate() *Time {
+// Previous 获取当前日期的前一天（昨天）
+func (this *Time) Previous() *Time {
 	var t = this.Time.Add(time.Hour * -24)
 	return &Time{t}
 }
 
-// NextDate 获取当前日期的后一天（明天）
-func (this *Time) NextDate() *Time {
+// Next 获取当前日期的后一天（明天）
+func (this *Time) Next() *Time {
 	var t = this.Time.Add(time.Hour * 24)
 	return &Time{t}
 }

@@ -7,23 +7,23 @@ func Now() *Time {
 	return &Time{time.Now()}
 }
 
-func WithTime(t time.Time) *Time {
+func FromTime(t time.Time) *Time {
 	return &Time{t}
 }
 
-func WithNanosecond(ns int64) *Time {
+func FromNanosecond(ns int64) *Time {
 	return Unix(0, ns)
 }
 
-func WithMicrosecond(ms int64) *Time {
+func FromMicrosecond(ms int64) *Time {
 	return Unix(0, ms*int64(time.Microsecond))
 }
 
-func WithMillisecond(ms int64) *Time {
+func FromMillisecond(ms int64) *Time {
 	return Unix(0, ms*int64(time.Millisecond))
 }
 
-func WithSecond(s int64) *Time {
+func FromSecond(s int64) *Time {
 	return Unix(s, 0)
 }
 
