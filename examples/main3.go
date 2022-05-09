@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/smartwalle/time4go/internal/timewheel"
+	"github.com/smartwalle/time4go/timewheel"
 	"time"
 )
 
 func main() {
-	tw := timewheel.New(200*time.Millisecond, 100)
+	tw := timewheel.New(1*time.Second, 10)
 
 	tw.Run()
-	//defer tw.Stop()
+	defer tw.Close()
 
 	count := 500000
 	queue := make(chan bool, count)
@@ -19,7 +19,7 @@ func main() {
 	for index := 0; index < 3; index++ {
 		start := time.Now()
 		for index := 0; index < count; index++ {
-			tw.After(time.Second*2, func() {
+			tw.AfterFunc(time.Second*2, func() {
 				queue <- true
 			})
 		}

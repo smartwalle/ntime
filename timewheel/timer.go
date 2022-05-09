@@ -5,28 +5,31 @@ import (
 	"sync/atomic"
 )
 
-type Timer struct {
+type Timer interface {
+	Stop()
+}
+
+type timer struct {
 	expiration int64
 	done       int32
 	task       func()
-	//element    priority.Element
-	element *list.Element
+	element    *list.Element
 }
 
-func newTimer(expiration int64, task func()) *Timer {
-	var t = &Timer{}
+func newTimer(expiration int64, task func()) *timer {
+	var t = &timer{}
 	t.expiration = expiration
 	t.task = task
 	return t
 }
 
-func (this *Timer) exec() {
+func (this *timer) exec() {
 	if atomic.CompareAndSwapInt32(&this.done, 0, 1) {
-		go this.task()
+		this.task()
 	}
 }
 
-func (this *Timer) Stop() {
+func (this *timer) Stop() {
 	if atomic.CompareAndSwapInt32(&this.done, 0, 1) {
 	}
 }

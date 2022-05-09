@@ -2,26 +2,26 @@ package main
 
 import (
 	"fmt"
-	"github.com/smartwalle/time4go/internal/timewheel"
+	"github.com/smartwalle/time4go/timewheel"
 	"sync"
 	"time"
 )
 
 func main() {
-	var tw = timewheel.New(time.Millisecond, 12)
+	var tw = timewheel.New(time.Second, 10)
 	tw.Run()
 
 	var wg = &sync.WaitGroup{}
 
 	wg.Add(1)
-	tw.After(time.Second*1, func() {
-		fmt.Println(time.Now().Unix(), "done")
+	tw.AfterFunc(time.Second*1, func() {
+		fmt.Println(time.Now().UnixMilli(), "done")
 		wg.Done()
 	})
 
 	wg.Add(1)
-	tw.After(time.Second*3, func() {
-		fmt.Println(time.Now().Unix(), "done")
+	tw.AfterFunc(time.Second*3, func() {
+		fmt.Println(time.Now().UnixMilli(), "done")
 		wg.Done()
 	})
 
