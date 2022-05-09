@@ -121,7 +121,14 @@ func (this *timeWheel) add(t *timer) bool {
 			atomic.CompareAndSwapPointer(
 				&this.overflow,
 				nil,
-				unsafe.Pointer(newTimeWheel(this.interval, this.size, nTime, this.queue)),
+				unsafe.Pointer(
+					newTimeWheel(
+						this.interval,
+						this.size,
+						nTime,
+						this.queue,
+					),
+				),
 			)
 			overflow = atomic.LoadPointer(&this.overflow)
 		}
