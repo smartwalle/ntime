@@ -65,8 +65,7 @@ func (this *bucket) Flush(f func(t *timer)) {
 
 		ele = next
 	}
+	this.SetExpiration(-1)
 
 	this.mu.Unlock()
-
-	this.SetExpiration(-1)
 }

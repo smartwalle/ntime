@@ -34,8 +34,8 @@ func New(tick time.Duration, size int64) TimeWheel {
 		panic(errors.New("tick must be greater than or equal to 1ms"))
 	}
 
-	if size <= 0 {
-		panic(errors.New("size must be greater than or equal to 1"))
+	if size <= 1 {
+		panic(errors.New("size must be greater than or equal to 2"))
 	}
 
 	var queue = delay.New[*bucket](

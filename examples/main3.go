@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	tw := timewheel.New(1*time.Second, 10)
+	tw := timewheel.New(1*time.Second, 2)
 
 	tw.Run()
 	defer tw.Close()
