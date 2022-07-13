@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/smartwalle/time4go/timewheel"
+	"github.com/smartwalle/time4go/internal/timewheel"
 	"time"
 )
 
