@@ -1,34 +1,23 @@
 package ntime
 
 import (
-	"sync"
 	"time"
 )
 
 var UTC = time.UTC
+
 var Local = time.Local
-var locList = make(map[string]*time.Location)
-var locLock = sync.Mutex{}
 
 func LoadLocation(name string) (*time.Location, error) {
-	locLock.Lock()
-	defer locLock.Unlock()
-	if loc, ok := locList[name]; ok {
-		return loc, nil
-	}
-	loc, err := time.LoadLocation(name)
-	if loc != nil {
-		locList[name] = loc
-	}
-	return loc, err
+	return time.LoadLocation(name)
 }
 
 func MustLocation(name string) *time.Location {
-	var l, err = LoadLocation(name)
+	var loc, err = LoadLocation(name)
 	if err != nil {
 		panic(err)
 	}
-	return l
+	return loc
 }
 
 func TimeZones() []string {
