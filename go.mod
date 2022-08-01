@@ -1,7 +1,5 @@
-module github.com/smartwalle/time4go
+module github.com/smartwalle/ntime
 
-require (
-	github.com/smartwalle/queue v0.0.1
-)
+require github.com/smartwalle/queue v0.0.2
 
 go 1.18

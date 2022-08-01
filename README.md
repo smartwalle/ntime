@@ -1,4 +1,4 @@
-## Time4Go
+## ntime
 
 Go 语言的时间工具库。
 
@@ -7,7 +7,7 @@ Go 语言的时间工具库。
 
 ## 安装
 ```bash
-$ go get github.com/smartwalle/time4go
+$ go get github.com/smartwalle/ntime
 ```
 
 ## 开始
@@ -16,22 +16,22 @@ package main
 
 import (
 	"fmt"
-	"github.com/smartwalle/time4go"
+	"github.com/smartwalle/ntime"
 	"time"
 )
 
 func main() {
-	var now = time4go.Now()
+	var now = ntime.Now()
 	fmt.Println(now)
 
-	var d = time4go.Date(2018, time.May, 20, 13, 14, 0, 0, time.Local)
+	var d = ntime.Date(2018, time.May, 20, 13, 14, 0, 0, time.Local)
 	fmt.Println(d)
 }
 ```
 
 #### 获取当前日期所在周的第一天和最后一天
 ```go
-var now = time4go.Now()
+var now = ntime.Now()
 now.BeginningDateOfWeek()
 now.EndDateOfWeek()
 ```
@@ -39,7 +39,7 @@ now.EndDateOfWeek()
 
 #### 获取当前日期所在月的第一天和最后一天
 ```go
-var now = time4go.Now()
+var now = ntime.Now()
 now.BeginningDateOfMonth()
 now.EndDateOfMonth()
 ```
@@ -49,7 +49,7 @@ now.EndDateOfMonth()
 * 设置序列化成 JSON 字符串时的格式
 
 ```go
-time4go.JSONFormatter = time4go.DefaultFormatter{Layout: "2006-01-02 15:04:05"}
+ntime.JSONFormatter = ntime.DefaultFormatter{Layout: "2006-01-02 15:04:05"}
 ```
 
 例子:
@@ -60,14 +60,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/smartwalle/time4go"
+	"github.com/smartwalle/ntime"
 )
 
 func main() {
-	time4go.JSONFormatter = time4go.DefaultFormatter{Layout: "2006-01-02 15:04:05"}
+	ntime.JSONFormatter = ntime.DefaultFormatter{Layout: "2006-01-02 15:04:05"}
 
 	var s = &Schedule{}
-	s.Begin = time4go.Now()
+	s.Begin = ntime.Now()
 	s.End = s.Begin.AddDate(0, 1, 0)
 
 	sBytes, _ := json.Marshal(s)
@@ -80,8 +80,8 @@ func main() {
 }
 
 type Schedule struct {
-	Begin *time4go.Time `json:"begin"`
-	End   *time4go.Time `json:"end"`
+	Begin *ntime.Time `json:"begin"`
+	End   *ntime.Time `json:"end"`
 }
 
 ```
@@ -111,7 +111,7 @@ func (this MyFormatter) Parse(data []byte) (time.Time, error) {
 	...
 }
 
-time4go.JSONFormatter = MyFormatter{}
+ntime.JSONFormatter = MyFormatter{}
 ```
 
 #### 支持 SQL 类数据库
@@ -123,7 +123,7 @@ if err != nil {
 	return
 }
 defer db.Close()
-db.Exec("INSERT INTO `user` (`name`, `age`, `created_on`) VALUES (?, ?, ?)", "test", 18, time4go.Now())
+db.Exec("INSERT INTO `user` (`name`, `age`, `created_on`) VALUES (?, ?, ?)", "test", 18, ntime.Now())
 ```
 
 写入 SQL 类数据的时候，会将时间转换为 UTC 时区的时间，从 SQL 类数据库读取的时候，会将时间转换为 UTC 时区的时间。从而避免了在使用 github.com/lib/pq 库的时候，当数据库服务器和业务服务器时区不同引发的操作 timestamp 类型字段数据会不一致的问题。

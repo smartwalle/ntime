@@ -14,5 +14,5 @@
 *.out
 
 .idea
-time4go.iml
+*.iml
 .DS_Store

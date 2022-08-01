@@ -1,4 +1,4 @@
-package time4go
+package ntime
 
 import (
 	"sync"

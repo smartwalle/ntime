@@ -1,4 +1,4 @@
-package time4go
+package ntime
 
 import (
 	"database/sql/driver"
@@ -91,7 +91,7 @@ func (this *Time) Scan(value interface{}) (err error) {
 	case nil:
 		return nil
 	default:
-		return fmt.Errorf("time4go: scanning unsupported type: %T", value)
+		return fmt.Errorf("ntime: scanning unsupported type: %T", value)
 	}
 }
 
