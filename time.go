@@ -228,17 +228,18 @@ func (this *Time) EndTime() *Time {
 
 // TrimSecond 将 Second 及以下的单位清除，只保留 Minute 及以上的信息
 func (this *Time) TrimSecond() *Time {
-	var t = Date(this.Year(), this.Month(), NumberOfDaysInMonth(this.Year(), this.Month()), this.Hour(), this.Minute(), 0, 0, this.Location())
+	var t = Date(this.Year(), this.Month(), this.Day(), this.Hour(), this.Minute(), 0, 0, this.Location())
 	return t
 }
 
 // TrimMinute 将 Minute 及以下的单位清除，只保留 Hour 及以上的信息
 func (this *Time) TrimMinute() *Time {
-	var t = Date(this.Year(), this.Month(), NumberOfDaysInMonth(this.Year(), this.Month()), this.Hour(), 0, 0, 0, this.Location())
+	var t = Date(this.Year(), this.Month(), this.Day(), this.Hour(), 0, 0, 0, this.Location())
 	return t
 }
 
 // TrimHour 将 Hour 及以下的单位清除，只保留 Day 及以上的信息
 func (this *Time) TrimHour() *Time {
-	return this.BeginningTime()
+	var t = Date(this.Year(), this.Month(), this.Day(), 0, 0, 0, 0, this.Location())
+	return t
 }
