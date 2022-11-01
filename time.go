@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	JSONFormatter TimeFormatter = DefaultFormatter{time.RFC3339}
+	JSONFormatter Formatter = DefaultFormatter{time.RFC3339}
 )
 
 const (
