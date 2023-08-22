@@ -2,3 +2,5 @@ github.com/smartwalle/queue v0.0.1 h1:gqGowFtRZcKPJxiezFeDj+3iiWCdsPitxRfjTdzfWD
 github.com/smartwalle/queue v0.0.1/go.mod h1:zMEHt/7zLtVwATDUQi3OdBUlbQ2XUzWd7OXP8p/684c=
 github.com/smartwalle/queue v0.0.2 h1:vMi8pBDlTY1HtWI/utkDyroVC72cI0MggqC26zTGo4k=
 github.com/smartwalle/queue v0.0.2/go.mod h1:zMEHt/7zLtVwATDUQi3OdBUlbQ2XUzWd7OXP8p/684c=
+github.com/smartwalle/queue v0.0.4 h1:h2YfM/I1yjPOQjMkhPOVuN5cSk62fRPqzqhlyZ/5zDA=
+github.com/smartwalle/queue v0.0.4/go.mod h1:zMEHt/7zLtVwATDUQi3OdBUlbQ2XUzWd7OXP8p/684c=

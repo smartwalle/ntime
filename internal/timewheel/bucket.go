@@ -52,7 +52,7 @@ func (this *bucket) Remove(t *timer) {
 	this.mu.Unlock()
 }
 
-func (this *bucket) Flush(f func(t *timer)) {
+func (this *bucket) Flush(fn func(t *timer)) {
 	this.mu.Lock()
 
 	for ele := this.timers.Front(); ele != nil; {
@@ -61,7 +61,7 @@ func (this *bucket) Flush(f func(t *timer)) {
 		var t = ele.Value.(*timer)
 		this.remove(t)
 
-		f(t)
+		fn(t)
 
 		ele = next
 	}
