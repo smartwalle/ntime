@@ -12,7 +12,7 @@ func main() {
 
 	var s = &Schedule{}
 	s.Begin = ntime.Now()
-	s.End = s.Begin.AddDate(0, 1, 0)
+	//s.End = s.Begin.AddDate(0, 1, 0)
 
 	sBytes, _ := json.Marshal(s)
 	fmt.Println(string(sBytes))
@@ -32,6 +32,6 @@ func main() {
 }
 
 type Schedule struct {
-	Begin *ntime.Time `json:"begin"`
-	End   *ntime.Time `json:"end"`
+	Begin ntime.Time `json:"begin"`
+	End   ntime.Time `json:"end"`
 }

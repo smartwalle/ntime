@@ -1,7 +1,6 @@
 package ntime
 
 import (
-	"errors"
 	"time"
 )
 
@@ -14,22 +13,20 @@ type DefaultFormatter struct {
 	Layout string
 }
 
-func (this DefaultFormatter) Format(t time.Time) ([]byte, error) {
-	if y := t.Year(); y < 0 || y >= 10000 {
-		return nil, errors.New("ntime.DefaultFormatter: year outside of range [0,9999]")
-	}
-
-	b := make([]byte, 0, len(this.Layout)+2)
+func (formatter DefaultFormatter) Format(t time.Time) ([]byte, error) {
+	b := make([]byte, 0, len(formatter.Layout)+2)
 	b = append(b, '"')
-	b = t.AppendFormat(b, this.Layout)
+	if !t.IsZero() {
+		b = t.AppendFormat(b, formatter.Layout)
+	}
 	b = append(b, '"')
 	return b, nil
 }
 
-func (this DefaultFormatter) Parse(data []byte) (result time.Time, err error) {
+func (formatter DefaultFormatter) Parse(data []byte) (t time.Time, err error) {
 	if string(data) == "null" {
-		return result, errors.New("ntime.DefaultFormatter: invalid time")
+		return t, nil
 	}
-	result, err = time.Parse(`"`+this.Layout+`"`, string(data))
-	return result, err
+	t, err = time.Parse(`"`+formatter.Layout+`"`, string(data))
+	return t, err
 }
