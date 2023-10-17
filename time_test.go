@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func TestTime_Greater(t *testing.T) {
+func TestTime_After(t *testing.T) {
 	var testTbl = []struct {
 		now    ntime.Time
 		dst    ntime.Time
