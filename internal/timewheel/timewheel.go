@@ -64,90 +64,90 @@ func newTimeWheel(tick int64, size int64, startTime int64, queue delay.Queue[*bu
 	return tw
 }
 
-func (this *timeWheel) Run() {
-	this.runOnce.Do(func() {
-		go this.run()
+func (w *timeWheel) Run() {
+	w.runOnce.Do(func() {
+		go w.run()
 	})
 }
 
-func (this *timeWheel) Close() {
-	this.queue.Close()
+func (w *timeWheel) Close() {
+	w.queue.Close()
 }
 
-func (this *timeWheel) run() {
+func (w *timeWheel) run() {
 	for {
-		var b, expiration = this.queue.Dequeue()
+		var b, expiration = w.queue.Dequeue()
 		if expiration < 0 {
 			return
 		}
-		this.clock(expiration)
-		b.Flush(this.addOrRun)
+		w.clock(expiration)
+		b.Flush(w.addOrRun)
 	}
 }
 
-func (this *timeWheel) clock(expiration int64) {
-	var nTime = atomic.LoadInt64(&this.currentTime)
-	if expiration >= nTime+this.tick {
-		nTime = truncate(expiration, this.tick)
-		atomic.StoreInt64(&this.currentTime, nTime)
+func (w *timeWheel) clock(expiration int64) {
+	var nTime = atomic.LoadInt64(&w.currentTime)
+	if expiration >= nTime+w.tick {
+		nTime = truncate(expiration, w.tick)
+		atomic.StoreInt64(&w.currentTime, nTime)
 
-		var overflow = atomic.LoadPointer(&this.overflow)
+		var overflow = atomic.LoadPointer(&w.overflow)
 		if overflow != nil {
 			(*timeWheel)(overflow).clock(nTime)
 		}
 	}
 }
 
-func (this *timeWheel) add(t *timer) bool {
-	var nTime = atomic.LoadInt64(&this.currentTime)
+func (w *timeWheel) add(t *timer) bool {
+	var nTime = atomic.LoadInt64(&w.currentTime)
 
-	if t.expiration < nTime+this.tick {
+	if t.expiration < nTime+w.tick {
 		return false
-	} else if t.expiration < nTime+this.interval {
-		var group = t.expiration / this.tick
-		var index = group % this.size
+	} else if t.expiration < nTime+w.interval {
+		var group = t.expiration / w.tick
+		var index = group % w.size
 
-		var b = this.buckets[index]
+		var b = w.buckets[index]
 		b.Add(t)
 
-		if b.SetExpiration(group * this.tick) {
-			this.queue.Enqueue(b, b.Expiration())
+		if b.SetExpiration(group * w.tick) {
+			w.queue.Enqueue(b, b.Expiration())
 		}
 
 		return true
 	} else {
-		var overflow = atomic.LoadPointer(&this.overflow)
+		var overflow = atomic.LoadPointer(&w.overflow)
 		if overflow == nil {
 			atomic.CompareAndSwapPointer(
-				&this.overflow,
+				&w.overflow,
 				nil,
 				unsafe.Pointer(
 					newTimeWheel(
-						this.interval,
-						this.size,
+						w.interval,
+						w.size,
 						nTime,
-						this.queue,
+						w.queue,
 					),
 				),
 			)
-			overflow = atomic.LoadPointer(&this.overflow)
+			overflow = atomic.LoadPointer(&w.overflow)
 		}
 
 		return (*timeWheel)(overflow).add(t)
 	}
 }
 
-func (this *timeWheel) addOrRun(t *timer) {
-	if !this.add(t) {
+func (w *timeWheel) addOrRun(t *timer) {
+	if !w.add(t) {
 		go t.exec()
 	}
 }
 
-func (this *timeWheel) AfterFunc(delay time.Duration, fn func()) Timer {
+func (w *timeWheel) AfterFunc(delay time.Duration, fn func()) Timer {
 	var expiration = time.Now().Add(delay).UnixMilli()
 	var t = newTimer(expiration, fn)
 
-	this.addOrRun(t)
+	w.addOrRun(t)
 
 	return t
 }

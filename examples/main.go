@@ -8,11 +8,20 @@ import (
 )
 
 func main() {
+	fmt.Println(ntime.Now().UTC().FirstDayOfWeek().Start(), ntime.Now().UTC().FirstDayOfWeek().End())
+	fmt.Println(ntime.Now().FirstDayOfWeek().Local().Start().UTC(), ntime.Now().FirstDayOfWeek().Local().End().UTC())
+
+	fmt.Println(ntime.Now().LastDayOfWeek(), ntime.Now().UTC().LastDayOfWeek())
+	fmt.Println(ntime.Now().FirstDayOfMonth())
+	fmt.Println(ntime.Now().LastDayOfMonth())
+	fmt.Println(ntime.Now().FirstDayOfYear())
+	fmt.Println(ntime.Now().LastDayOfYear())
+	return
 	ntime.JSONFormatter = ntime.DefaultFormatter{Layout: "2006-01-02 15:04:05"}
 
 	var s = &Schedule{}
 	s.Begin = ntime.Now()
-	//s.End = s.Begin.AddDate(0, 1, 0)
+	//s.End = s.Start.AddDate(0, 1, 0)
 
 	sBytes, _ := json.Marshal(s)
 	fmt.Println(string(sBytes))

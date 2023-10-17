@@ -19,53 +19,53 @@ func newBucket() *bucket {
 	return b
 }
 
-func (this *bucket) Expiration() int64 {
-	return atomic.LoadInt64(&this.expiration)
+func (b *bucket) Expiration() int64 {
+	return atomic.LoadInt64(&b.expiration)
 }
 
-func (this *bucket) SetExpiration(expiration int64) bool {
-	return atomic.SwapInt64(&this.expiration, expiration) != expiration
+func (b *bucket) SetExpiration(expiration int64) bool {
+	return atomic.SwapInt64(&b.expiration, expiration) != expiration
 }
 
-func (this *bucket) Add(t *timer) {
+func (b *bucket) Add(t *timer) {
 	if t == nil {
 		return
 	}
-	this.mu.Lock()
-	var ele = this.timers.PushBack(t)
+	b.mu.Lock()
+	var ele = b.timers.PushBack(t)
 	t.element = ele
-	this.mu.Unlock()
+	b.mu.Unlock()
 }
 
-func (this *bucket) remove(t *timer) {
-	this.timers.Remove(t.element)
+func (b *bucket) remove(t *timer) {
+	b.timers.Remove(t.element)
 	t.element = nil
 }
 
-func (this *bucket) Remove(t *timer) {
+func (b *bucket) Remove(t *timer) {
 	if t == nil {
 		return
 	}
 
-	this.mu.Lock()
-	this.remove(t)
-	this.mu.Unlock()
+	b.mu.Lock()
+	b.remove(t)
+	b.mu.Unlock()
 }
 
-func (this *bucket) Flush(fn func(t *timer)) {
-	this.mu.Lock()
+func (b *bucket) Flush(fn func(t *timer)) {
+	b.mu.Lock()
 
-	for ele := this.timers.Front(); ele != nil; {
+	for ele := b.timers.Front(); ele != nil; {
 		var next = ele.Next()
 
 		var t = ele.Value.(*timer)
-		this.remove(t)
+		b.remove(t)
 
 		fn(t)
 
 		ele = next
 	}
-	this.SetExpiration(-1)
+	b.SetExpiration(-1)
 
-	this.mu.Unlock()
+	b.mu.Unlock()
 }

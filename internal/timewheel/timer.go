@@ -23,13 +23,13 @@ func newTimer(expiration int64, task func()) *timer {
 	return t
 }
 
-func (this *timer) exec() {
-	if atomic.CompareAndSwapInt32(&this.done, 0, 1) {
-		this.task()
+func (t *timer) exec() {
+	if atomic.CompareAndSwapInt32(&t.done, 0, 1) {
+		t.task()
 	}
 }
 
-func (this *timer) Stop() {
-	if atomic.CompareAndSwapInt32(&this.done, 0, 1) {
+func (t *timer) Stop() {
+	if atomic.CompareAndSwapInt32(&t.done, 0, 1) {
 	}
 }

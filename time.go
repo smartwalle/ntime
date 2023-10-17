@@ -1,8 +1,6 @@
 package ntime
 
 import (
-	"database/sql/driver"
-	"fmt"
 	"time"
 )
 
@@ -18,89 +16,36 @@ type Time struct {
 	time.Time
 }
 
-func (t Time) MarshalBinary() ([]byte, error) {
-	return t.Time.MarshalBinary()
-}
-
-func (t *Time) UnmarshalBinary(data []byte) error {
-	return t.Time.UnmarshalBinary(data)
-}
-
-func (t Time) GobEncode() ([]byte, error) {
-	return t.Time.GobEncode()
-}
-
-func (t *Time) GobDecode(data []byte) error {
-	return t.Time.GobDecode(data)
-}
-
-func (t Time) MarshalJSON() ([]byte, error) {
-	return JSONFormatter.Format(t.Time)
-}
-
-func (t *Time) UnmarshalJSON(data []byte) error {
-	var err error
-	t.Time, err = JSONFormatter.Parse(data)
-	return err
-}
-
-func (t Time) MarshalText() ([]byte, error) {
-	return t.Time.MarshalText()
-}
-
-func (t *Time) UnmarshalText(data []byte) error {
-	return t.Time.UnmarshalText(data)
-}
-
-func (t *Time) Value() (driver.Value, error) {
-	if t == nil {
-		return nil, nil
-	}
-	return t.Time.UTC(), nil
-}
-
-func (t *Time) Scan(value interface{}) (err error) {
-	switch val := value.(type) {
-	case time.Time:
-		t.Time = val.UTC()
-		return nil
-	case *time.Time:
-		t.Time = (*val).UTC()
-		return nil
-	case Time:
-		t.Time = val.Time.UTC()
-		return nil
-	case *Time:
-		t.Time = val.Time.UTC()
-		return nil
-	case nil:
-		return nil
-	default:
-		return fmt.Errorf("ntime: scanning unsupported type: %T", value)
-	}
-}
-
-func (t Time) Format(layout string) string {
-	if layout == "" {
-		layout = kDefaultLayout
-	}
-	return t.Time.Format(layout)
-}
-
-func (t Time) GreaterThan(u Time) bool {
-	return t.After(u)
-}
-
 func (t Time) After(u Time) bool {
 	return t.Time.After(u.Time)
 }
 
-func (t Time) LessThan(u Time) bool {
-	return t.Before(u)
-}
-
 func (t Time) Before(u Time) bool {
 	return t.Time.Before(u.Time)
+}
+
+func (t Time) Compare(u Time) int {
+	return t.Time.Compare(u.Time)
+}
+
+func (t Time) Equal(u Time) bool {
+	return t.Time.Equal(u.Time)
+}
+
+func (t Time) Add(d time.Duration) Time {
+	return Time{Time: t.Time.Add(d)}
+}
+
+func (t Time) Sub(u Time) time.Duration {
+	var t1 = t.Time
+	var t2 = u.Time
+	t1 = t1.In(time.UTC)
+	t2 = t2.In(time.UTC)
+	return t1.Sub(t2)
+}
+
+func (t Time) AddDate(years int, months int, days int) Time {
+	return Time{Time: t.Time.AddDate(years, months, days)}
 }
 
 func (t Time) UTC() Time {
@@ -115,20 +60,19 @@ func (t Time) In(loc *time.Location) Time {
 	return Time{Time: t.Time.In(loc)}
 }
 
-func (t Time) AddDate(years int, months int, days int) Time {
-	return Time{Time: t.Time.AddDate(years, months, days)}
+func (t Time) Truncate(d time.Duration) Time {
+	return Time{Time: t.Time.Truncate(d)}
 }
 
-func (t Time) Add(d time.Duration) Time {
-	return Time{Time: t.Time.Add(d)}
+func (t Time) Round(d time.Duration) Time {
+	return Time{Time: t.Time.Round(d)}
 }
 
-func (t Time) Sub(u Time) time.Duration {
-	var t1 = t.Time
-	var t2 = u.Time
-	t1 = t1.In(time.UTC)
-	t2 = t2.In(time.UTC)
-	return t1.Sub(t2)
+func (t Time) Format(layout string) string {
+	if layout == "" {
+		layout = kDefaultLayout
+	}
+	return t.Time.Format(layout)
 }
 
 // UnixNanosecond 纳秒（ns）
@@ -161,32 +105,50 @@ func (t Time) Next() Time {
 	return Time{Time: t.Time.Add(time.Hour * 24)}
 }
 
-// BeginningDateOfWeek 获取当前日期所在周的第一天
-func (t Time) BeginningDateOfWeek() Time {
-	return beginningDateOfWeek(t)
+// FirstDayOfWeek 获取当前日期所在周的第一天
+func (t Time) FirstDayOfWeek() Time {
+	var nt = Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
+	var w = nt.Weekday()
+	var d = int(w - time.Sunday)
+	return Date(t.Year(), t.Month(), t.Day()-d, t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location())
 }
 
-// EndDateOfWeek 获取当前日期所在周的最后一天
-func (t Time) EndDateOfWeek() Time {
-	return endDateOfWeek(t)
+// LastDayOfWeek 获取当前日期所在周的最后一天
+func (t Time) LastDayOfWeek() Time {
+	var nt = Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.Local)
+	var w = nt.Weekday()
+	var d = int(time.Saturday - w)
+	return Date(t.Year(), t.Month(), t.Day()+d, t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location())
 }
 
-// BeginningDateOfMonth 获取当前日期所在月的第一天
-func (t Time) BeginningDateOfMonth() Time {
-	return Date(t.Year(), t.Month(), 1, t.Hour(), t.Minute(), t.Second(), 0, t.Location())
+// FirstDayOfMonth 获取当前日期所在月的第一天
+func (t Time) FirstDayOfMonth() Time {
+	return Date(t.Year(), t.Month(), 1, t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location())
 }
 
-// EndDateOfMonth 获取当前日期所在月的最后一天
-func (t Time) EndDateOfMonth() Time {
-	return Date(t.Year(), t.Month(), NumberOfDaysInMonth(t.Year(), t.Month()), t.Hour(), t.Minute(), t.Second(), 0, t.Location())
+// LastDayOfMonth 获取当前日期所在月的最后一天
+func (t Time) LastDayOfMonth() Time {
+	return Date(t.Year(), t.Month(), NumberOfDaysInMonth(t.Year(), t.Month()), t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location())
 }
 
-func (t Time) BeginningTime() Time {
-	return BeginningTime(t)
+// FirstDayOfYear 获取当前日期所在年的第一天
+func (t Time) FirstDayOfYear() Time {
+	return Date(t.Year(), time.January, 1, t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location())
 }
 
-func (t Time) EndTime() Time {
-	return EndTime(t)
+// LastDayOfYear 获取当前日期所在年的最后一天
+func (t Time) LastDayOfYear() Time {
+	return Date(t.Year(), time.December, NumberOfDaysInMonth(t.Year(), time.December), t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location())
+}
+
+// Start 获取当前日期的开始时间，如：2023-10-15 00:00:00 +0000 UTC
+func (t Time) Start() Time {
+	return Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
+}
+
+// End 获取当前日期的结束时间，如：2023-10-15 23:59:59.999999999 +0000 UTC
+func (t Time) End() Time {
+	return Date(t.Year(), t.Month(), t.Day(), 23, 59, 59, 999999999, t.Location())
 }
 
 // TrimSecond 将 Second 及以下的单位清除，只保留 Minute 及以上的信息
