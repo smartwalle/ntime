@@ -32,16 +32,16 @@ func main() {
 #### 获取当前日期所在周的第一天和最后一天
 ```go
 var now = ntime.Now()
-now.BeginningDateOfWeek()
-now.EndDateOfWeek()
+now.FirstDayOfWeek()
+now.LastDayOfWeek()
 ```
 
 
 #### 获取当前日期所在月的第一天和最后一天
 ```go
 var now = ntime.Now()
-now.BeginningDateOfMonth()
-now.EndDateOfMonth()
+now.FirstDayOfMonth()
+now.LastDayOfMonth()
 ```
 
 #### JSON
