@@ -109,38 +109,48 @@ func NumberOfDaysInMonth(year int, month time.Month) (number int) {
 	return number
 }
 
-// FirstDayOfWeek 获取指定日期所在周的第一天
-func FirstDayOfWeek(year int, month time.Month, day int) Time {
+// BeginningOfDay 获取指定日期的开始时间
+func BeginningOfDay(year int, month time.Month, day int) Time {
+	return Date(year, month, day, 0, 0, 0, 0, time.Local)
+}
+
+// EndOfDay 获取指定日期的结束时间
+func EndOfDay(year int, month time.Month, day int) Time {
+	return Date(year, month, day, 23, 59, 59, int(time.Second-time.Nanosecond), time.Local)
+}
+
+// BeginningOfWeek 获取指定日期所在周的开始时间
+func BeginningOfWeek(year int, month time.Month, day int) Time {
 	var t = Date(year, month, day, 0, 0, 0, 0, time.Local)
 	var w = t.Weekday()
 	var d = int(w - time.Sunday)
 	return Date(year, month, day-d, 0, 0, 0, 0, time.Local)
 }
 
-// LastDayOfWeek 获取指定日期所有周的最后一天
-func LastDayOfWeek(year int, month time.Month, day int) Time {
+// EndOfWeek 获取指定日期所在周的结束时间
+func EndOfWeek(year int, month time.Month, day int) Time {
 	var t = Date(year, month, day, 0, 0, 0, 0, time.Local)
 	var w = t.Weekday()
 	var d = int(time.Saturday - w)
-	return Date(year, month, day+d, 0, 0, 0, 0, time.Local)
+	return Date(year, month, day+d, 23, 59, 59, int(time.Second-time.Nanosecond), time.Local)
 }
 
-// FirstDayOfMonth 获取指定月份的第一天
-func FirstDayOfMonth(year int, month time.Month) Time {
+// BeginningOfMonth 获取指定月份的开始时间
+func BeginningOfMonth(year int, month time.Month) Time {
 	return Date(year, month, 1, 0, 0, 0, 0, time.Local)
 }
 
-// LastDayOfMonth 获取指定月份的最后一天
-func LastDayOfMonth(year int, month time.Month) Time {
-	return Date(year, month, NumberOfDaysInMonth(year, month), 0, 0, 0, 0, time.Local)
+// EndOfMonth 获取指定月份的结束时间
+func EndOfMonth(year int, month time.Month) Time {
+	return Date(year, month, NumberOfDaysInMonth(year, month), 23, 59, 59, int(time.Second-time.Nanosecond), time.Local)
 }
 
-// FirstDayOfYear 获取指定年份的第一天
-func FirstDayOfYear(year int) Time {
+// BeginningOfYear 获取指定年份的开始时间
+func BeginningOfYear(year int) Time {
 	return Date(year, time.January, 1, 0, 0, 0, 0, time.Local)
 }
 
-// LastDayOfYear 获取指定年份的最后一天
-func LastDayOfYear(year int) Time {
-	return Date(year, time.December, NumberOfDaysInMonth(year, time.December), 0, 0, 0, 0, time.Local)
+// EndOfYear 获取指定年份的结束时间
+func EndOfYear(year int) Time {
+	return Date(year, time.December, NumberOfDaysInMonth(year, time.December), 23, 59, 59, int(time.Second-time.Nanosecond), time.Local)
 }

@@ -105,63 +105,67 @@ func (t Time) Next() Time {
 	return Time{Time: t.Time.Add(time.Hour * 24)}
 }
 
-// FirstDayOfWeek 获取当前日期所在周的第一天
-func (t Time) FirstDayOfWeek() Time {
-	var nt = Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
-	var w = nt.Weekday()
-	var d = int(w - time.Sunday)
-	return Date(t.Year(), t.Month(), t.Day()-d, t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location())
-}
-
-// LastDayOfWeek 获取当前日期所在周的最后一天
-func (t Time) LastDayOfWeek() Time {
-	var nt = Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.Local)
-	var w = nt.Weekday()
-	var d = int(time.Saturday - w)
-	return Date(t.Year(), t.Month(), t.Day()+d, t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location())
-}
-
-// FirstDayOfMonth 获取当前日期所在月的第一天
-func (t Time) FirstDayOfMonth() Time {
-	return Date(t.Year(), t.Month(), 1, t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location())
-}
-
-// LastDayOfMonth 获取当前日期所在月的最后一天
-func (t Time) LastDayOfMonth() Time {
-	return Date(t.Year(), t.Month(), NumberOfDaysInMonth(t.Year(), t.Month()), t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location())
-}
-
-// FirstDayOfYear 获取当前日期所在年的第一天
-func (t Time) FirstDayOfYear() Time {
-	return Date(t.Year(), time.January, 1, t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location())
-}
-
-// LastDayOfYear 获取当前日期所在年的最后一天
-func (t Time) LastDayOfYear() Time {
-	return Date(t.Year(), time.December, NumberOfDaysInMonth(t.Year(), time.December), t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location())
-}
-
-// Start 获取当前日期的开始时间，如：2023-10-15 00:00:00 +0000 UTC
-func (t Time) Start() Time {
-	return Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
-}
-
-// End 获取当前日期的结束时间，如：2023-10-15 23:59:59.999999999 +0000 UTC
-func (t Time) End() Time {
-	return Date(t.Year(), t.Month(), t.Day(), 23, 59, 59, 999999999, t.Location())
-}
-
-// TrimSecond 将 Second 及以下的单位清除，只保留 Minute 及以上的信息
-func (t Time) TrimSecond() Time {
+// BeginningOfMinute 获取当前分钟的开始时间
+func (t Time) BeginningOfMinute() Time {
 	return Date(t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), 0, 0, t.Location())
 }
 
-// TrimMinute 将 Minute 及以下的单位清除，只保留 Hour 及以上的信息
-func (t Time) TrimMinute() Time {
+func (t Time) EndOfMinute() Time {
+	return Date(t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), 59, int(time.Second-time.Nanosecond), t.Location())
+}
+
+// BeginningOfHour 获取当前小时的开始时间
+func (t Time) BeginningOfHour() Time {
 	return Date(t.Year(), t.Month(), t.Day(), t.Hour(), 0, 0, 0, t.Location())
 }
 
-// TrimHour 将 Hour 及以下的单位清除，只保留 Day 及以上的信息
-func (t Time) TrimHour() Time {
+// EndOfHour 获取当前小时的结束时间
+func (t Time) EndOfHour() Time {
+	return Date(t.Year(), t.Month(), t.Day(), t.Hour(), 59, 59, int(time.Second-time.Nanosecond), t.Location())
+}
+
+// BeginningOfDay 获取当前天的开始时间
+func (t Time) BeginningOfDay() Time {
 	return Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
+}
+
+// EndOfDay 获取当前天的结束时间
+func (t Time) EndOfDay() Time {
+	return Date(t.Year(), t.Month(), t.Day(), 23, 59, 59, int(time.Second-time.Nanosecond), t.Location())
+}
+
+// BeginningOfWeek 获取当前日期所在周的开始时间
+func (t Time) BeginningOfWeek() Time {
+	var nt = Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
+	var w = nt.Weekday()
+	var d = int(w - time.Sunday)
+	return Date(t.Year(), t.Month(), t.Day()-d, 0, 0, 0, 0, t.Location())
+}
+
+// EndOfWeek 获取当前日期所在周的结束时间
+func (t Time) EndOfWeek() Time {
+	var nt = Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.Local)
+	var w = nt.Weekday()
+	var d = int(time.Saturday - w)
+	return Date(t.Year(), t.Month(), t.Day()+d, 23, 59, 59, int(time.Second-time.Nanosecond), t.Location())
+}
+
+// BeginningOfMonth 获取当前日期所在月的开始时间
+func (t Time) BeginningOfMonth() Time {
+	return Date(t.Year(), t.Month(), 1, 0, 0, 0, 0, t.Location())
+}
+
+// EndOfMonth 获取当前日期所在月的结束时间
+func (t Time) EndOfMonth() Time {
+	return Date(t.Year(), t.Month(), NumberOfDaysInMonth(t.Year(), t.Month()), 23, 59, 59, int(time.Second-time.Nanosecond), t.Location())
+}
+
+// BeginningOfYear 获取当前日期所在年的开始时间
+func (t Time) BeginningOfYear() Time {
+	return Date(t.Year(), time.January, 1, 0, 0, 0, 0, t.Location())
+}
+
+// EndOfYear 获取当前日期所在年的结束时间
+func (t Time) EndOfYear() Time {
+	return Date(t.Year(), time.December, NumberOfDaysInMonth(t.Year(), time.December), 23, 59, 59, int(time.Second-time.Nanosecond), t.Location())
 }

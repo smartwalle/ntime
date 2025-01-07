@@ -25,3 +25,13 @@ func TestTime_After(t *testing.T) {
 		}
 	}
 }
+
+func TestTime_Beginning(t *testing.T) {
+	var now = ntime.Now()
+	t.Log(now.BeginningOfMinute(), now.EndOfMinute())
+	t.Log(now.BeginningOfHour(), now.EndOfHour())
+	t.Log(now.BeginningOfDay(), now.EndOfDay())
+	t.Log(now.BeginningOfWeek(), now.EndOfWeek())
+	t.Log(now.BeginningOfMonth(), now.EndOfMonth())
+	t.Log(now.BeginningOfYear(), now.EndOfYear())
+}

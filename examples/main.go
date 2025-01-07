@@ -23,8 +23,8 @@ func main() {
 	fmt.Println(s2.Start, s2.End)
 
 	var now = ntime.Now()
-	fmt.Println(now.FirstDayOfMonth().Start())
-	fmt.Println(now.LastDayOfMonth().End())
+	fmt.Println(now.BeginningOfMonth())
+	fmt.Println(now.EndOfMonth())
 
 	var t = ntime.Date(2019, time.January, 1, 0, 0, 0, 0, ntime.UTC)
 
