@@ -4,16 +4,24 @@ import (
 	"time"
 )
 
-var (
-	JSONFormatter Formatter = DefaultFormatter{time.RFC3339}
-)
-
 const (
 	kDefaultLayout = "2006-01-02 15:04:05.999999999 -0700 MST"
 )
 
 type Time struct {
 	time.Time
+	codec Codec
+}
+
+func (t *Time) UseCodec(c Codec) {
+	t.codec = c
+}
+
+func (t Time) GetCodec() Codec {
+	if t.codec != nil {
+		return t.codec
+	}
+	return GetCodec()
 }
 
 func (t Time) Quarter() int {

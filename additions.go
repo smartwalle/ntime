@@ -4,11 +4,11 @@ import "time"
 
 // Now 获取当前时间
 func Now() Time {
-	return Time{time.Now()}
+	return Time{Time: time.Now()}
 }
 
 func FromTime(t time.Time) Time {
-	return Time{t}
+	return Time{Time: t}
 }
 
 func FromNanosecond(ns int64) Time {
@@ -28,15 +28,15 @@ func FromSecond(s int64) Time {
 }
 
 func Date(year int, month time.Month, day, hour, min, sec, nsec int, loc *time.Location) Time {
-	return Time{time.Date(year, month, day, hour, min, sec, nsec, loc)}
+	return Time{Time: time.Date(year, month, day, hour, min, sec, nsec, loc)}
 }
 
 func Unix(sec int64, nsec int64) Time {
-	return Time{time.Unix(sec, nsec)}
+	return Time{Time: time.Unix(sec, nsec)}
 }
 
 func UnixIn(sec int64, nsec int64, loc *time.Location) Time {
-	return Time{time.Unix(sec, nsec).In(loc)}
+	return Time{Time: time.Unix(sec, nsec).In(loc)}
 }
 
 func Parse(layout, value string) (Time, error) {
@@ -44,7 +44,7 @@ func Parse(layout, value string) (Time, error) {
 		layout = kDefaultLayout
 	}
 	t, err := time.Parse(layout, value)
-	return Time{t}, err
+	return Time{Time: t}, err
 }
 
 func MustParse(layout, value string) Time {
@@ -61,7 +61,7 @@ func ParseInLocation(layout, value string, loc *time.Location) (Time, error) {
 	}
 
 	t, err := time.ParseInLocation(layout, value, loc)
-	return Time{t}, err
+	return Time{Time: t}, err
 }
 
 func MustParseInLocation(layout, value string, loc *time.Location) Time {

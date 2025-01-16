@@ -34,6 +34,5 @@ func TestTime_Beginning(t *testing.T) {
 	t.Log("---Week", now.BeginningOfWeek(), now.EndOfWeek())
 	t.Log("--Month", now.BeginningOfMonth(), now.EndOfMonth())
 	t.Log("Quarter", now.BeginningOfQuarter(), now.EndOfQuarter())
-	t.Log("Quarter", ntime.BeginningOfQuarter(2025, 1), ntime.EndOfQuarter(2025, 1))
 	t.Log("---Year", now.BeginningOfYear(), now.EndOfYear())
 }

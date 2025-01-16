@@ -6,6 +6,26 @@ import (
 	"time"
 )
 
+var (
+	codec Codec = DefaultCodec{Layout: time.RFC3339}
+)
+
+func UseCodec(c Codec) {
+	if c == nil {
+		c = DefaultCodec{Layout: time.RFC3339}
+	}
+	codec = c
+}
+
+func GetCodec() Codec {
+	return codec
+}
+
+type Codec interface {
+	JSONEncode(t time.Time) ([]byte, error)
+	JOSNDecode(data []byte) (time.Time, error)
+}
+
 func (t Time) MarshalBinary() ([]byte, error) {
 	return t.Time.MarshalBinary()
 }
@@ -23,12 +43,11 @@ func (t *Time) GobDecode(data []byte) error {
 }
 
 func (t Time) MarshalJSON() ([]byte, error) {
-	return JSONFormatter.Format(t.Time)
+	return t.GetCodec().JSONEncode(t.Time)
 }
 
-func (t *Time) UnmarshalJSON(data []byte) error {
-	var err error
-	t.Time, err = JSONFormatter.Parse(data)
+func (t *Time) UnmarshalJSON(data []byte) (err error) {
+	t.Time, err = t.GetCodec().JOSNDecode(data)
 	return err
 }
 
