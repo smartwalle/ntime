@@ -145,6 +145,18 @@ func EndOfMonth(year int, month time.Month) Time {
 	return Date(year, month, NumberOfDaysInMonth(year, month), 23, 59, 59, int(time.Second-time.Nanosecond), time.Local)
 }
 
+// BeginningOfQuarter 获取指定季度的开始时间
+func BeginningOfQuarter(year int, quarter int) Time {
+	var m = time.Month((quarter-1)*3 + 1)
+	return Date(year, m, 1, 0, 0, 0, 0, time.Local)
+}
+
+// EndOfQuarter 获取指定季度的结束时间
+func EndOfQuarter(year int, quarter int) Time {
+	var m = time.Month((quarter-1)*3 + 3)
+	return Date(year, m, NumberOfDaysInMonth(year, m), 23, 59, 59, int(time.Second-time.Nanosecond), time.Local)
+}
+
 // BeginningOfYear 获取指定年份的开始时间
 func BeginningOfYear(year int) Time {
 	return Date(year, time.January, 1, 0, 0, 0, 0, time.Local)

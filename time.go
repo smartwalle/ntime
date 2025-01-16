@@ -16,6 +16,10 @@ type Time struct {
 	time.Time
 }
 
+func (t Time) Quarter() int {
+	return int(t.Month())/3 + 1
+}
+
 func (t Time) After(u Time) bool {
 	return t.Time.After(u.Time)
 }
@@ -158,6 +162,18 @@ func (t Time) BeginningOfMonth() Time {
 // EndOfMonth 获取当前日期所在月的结束时间
 func (t Time) EndOfMonth() Time {
 	return Date(t.Year(), t.Month(), NumberOfDaysInMonth(t.Year(), t.Month()), 23, 59, 59, int(time.Second-time.Nanosecond), t.Location())
+}
+
+// BeginningOfQuarter 获取当前日期所在季度的开始时间
+func (t Time) BeginningOfQuarter() Time {
+	var m = int(t.Month()-1)/3*3 + 1
+	return Date(t.Year(), time.Month(m), 1, 0, 0, 0, 0, t.Location())
+}
+
+// EndOfQuarter 获取当前日期所在季度的结束时间
+func (t Time) EndOfQuarter() Time {
+	var m = time.Month(int(t.Month()-1)/3*3 + 3)
+	return Date(t.Year(), m, NumberOfDaysInMonth(t.Year(), m), 23, 59, 59, int(time.Second-time.Nanosecond), t.Location())
 }
 
 // BeginningOfYear 获取当前日期所在年的开始时间

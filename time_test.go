@@ -28,10 +28,12 @@ func TestTime_After(t *testing.T) {
 
 func TestTime_Beginning(t *testing.T) {
 	var now = ntime.Now()
-	t.Log(now.BeginningOfMinute(), now.EndOfMinute())
-	t.Log(now.BeginningOfHour(), now.EndOfHour())
-	t.Log(now.BeginningOfDay(), now.EndOfDay())
-	t.Log(now.BeginningOfWeek(), now.EndOfWeek())
-	t.Log(now.BeginningOfMonth(), now.EndOfMonth())
-	t.Log(now.BeginningOfYear(), now.EndOfYear())
+	t.Log("-Minute", now.BeginningOfMinute(), now.EndOfMinute())
+	t.Log("---Hour", now.BeginningOfHour(), now.EndOfHour())
+	t.Log("----Day", now.BeginningOfDay(), now.EndOfDay())
+	t.Log("---Week", now.BeginningOfWeek(), now.EndOfWeek())
+	t.Log("--Month", now.BeginningOfMonth(), now.EndOfMonth())
+	t.Log("Quarter", now.BeginningOfQuarter(), now.EndOfQuarter())
+	t.Log("Quarter", ntime.BeginningOfQuarter(2025, 1), ntime.EndOfQuarter(2025, 1))
+	t.Log("---Year", now.BeginningOfYear(), now.EndOfYear())
 }
