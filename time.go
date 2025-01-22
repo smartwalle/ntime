@@ -148,16 +148,14 @@ func (t Time) EndOfDay() Time {
 
 // BeginningOfWeek 获取当前日期所在周的开始时间
 func (t Time) BeginningOfWeek() Time {
-	var nt = Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
-	var w = nt.Weekday()
+	var w = t.Weekday()
 	var d = int(w - time.Sunday)
 	return Date(t.Year(), t.Month(), t.Day()-d, 0, 0, 0, 0, t.Location())
 }
 
 // EndOfWeek 获取当前日期所在周的结束时间
 func (t Time) EndOfWeek() Time {
-	var nt = Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.Local)
-	var w = nt.Weekday()
+	var w = t.Weekday()
 	var d = int(time.Saturday - w)
 	return Date(t.Year(), t.Month(), t.Day()+d, 23, 59, 59, int(time.Second-time.Nanosecond), t.Location())
 }
